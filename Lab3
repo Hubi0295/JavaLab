@@ -1,0 +1,116 @@
+import java.util.Scanner;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("ZAD1");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj ciąg znaków: ");
+        String lancuch = scanner.nextLine();
+        System.out.print("Podaj znak: ");
+        char znak = scanner.next().charAt(0);
+        System.out.println(lancuch);
+        zad1(znak,lancuch);
+        System.out.println("ZAD2");
+        zad2(lancuch.toCharArray());
+        int podana=0;
+        while(podana<33 || podana>126){
+            System.out.println("Podaj liczbe z zakresu <33,126>");
+            podana=scanner.nextInt();
+        }
+        System.out.println("ZAD3");
+        zad3(podana);
+        System.out.println("ZAD4");
+        SzyfrCezara();
+        System.out.println("ZAD5");
+        System.out.println("Podaj liczbe: ");
+        int liczba = scanner.nextInt();
+        ArrayList<Integer> ciagBinarny = BinaryZero(liczba);
+        Collections.reverse(ciagBinarny);
+        for(int i=0;i<ciagBinarny.size();i++) {
+            System.out.print(ciagBinarny.get(i));
+        }
+        System.out.println();
+        System.out.println(HowManySequences(ciagBinarny));
+
+    }
+    public static void zad1(char znak, String lancuch){
+        char[] tab = lancuch.toCharArray();
+        int licznik=0;
+        for (char x:tab) {
+            if((int)znak==(int)x){
+                licznik+=1;
+            }
+        }
+        if(licznik>0){
+            System.out.println("Znak wystąpił: "+licznik+" razy");
+        }
+        else{
+            System.out.println("Znak nie wystąpił ani razu");
+        }
+    }
+    public static void zad2(char[] lancuch){
+        int suma=0;
+        for(char x:lancuch) {
+            if(((int)x>=48 && (int)x<=57) || ((int)x>=97 && (int)x<=122)){
+                suma+=(int)x;
+            }
+        }
+        System.out.println("suma z małych znakow i liczb wynosi: "+suma);
+    }
+    public static void zad3(int liczba){
+        System.out.println((char)liczba);
+    }
+    //zad4szyfr cezara
+    public static void SzyfrCezara(){
+        System.out.println("Wprowadz tekst: ");
+        Scanner scanner = new Scanner(System.in);
+        String newString = scanner.nextLine();
+        System.out.println("Chcesz zakodować, wciśnij 1. Chcesz dekodować, wciśnij -1");
+        int wybor = scanner.nextInt();
+        char[] encrypted = cryptionCezar(newString,wybor);
+        System.out.println(encrypted);
+    }
+    public static char[] ReturnCharArray(String chain){
+        return chain.toCharArray();
+    }
+    public static char[] cryptionCezar(String chain, int wybor){
+        char[] charArray = ReturnCharArray(chain);
+        int i=0;
+        for (char x:charArray) {
+            if (((int)x>=97 && (int)x<=122) || ((int)x>=65 && (int)x<=90)){
+                if(((int)x==122 ||(int)x==90) && wybor==1) {
+                    x = (char) ((int) x -26);
+                } else if (((int)x==97 ||(int)x==65) && wybor==-1) {
+                    x = (char) ((int) x +26);
+                }
+                charArray[i]=(char)(wybor*1+(int)x);
+            }
+            i++;
+        }
+        return charArray;
+    }
+    //zad5
+    public static ArrayList<Integer> BinaryZero(int liczba){
+        ArrayList<Integer> ciag = new ArrayList<>();
+        while(liczba!=0){
+            ciag.add(liczba%2);
+            liczba=liczba/2;
+        }
+        return ciag;
+    }
+    public static int HowManySequences(ArrayList<Integer> ciag){
+        int ile = 0;
+        for(int i=0;i<ciag.size();i++){
+            if(ciag.get(i)==0){
+                for(int j=i;j<ciag.size();j++){
+                    if(ciag.get(j)==1){
+                        ile+=1;
+                        i=j;
+                        break;
+                    }
+                }
+            }
+        }
+        return ile;
+    }
+}
