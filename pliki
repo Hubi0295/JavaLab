@@ -1,0 +1,48 @@
+import javax.imageio.IIOException;
+import java.io.*;
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Podaj ciag znakow: ");
+        String ciag = scanner.nextLine();
+        System.out.println("Podaj krok");
+        int krok = scanner.nextInt();
+        cezarowy(ciag,krok);
+        Decezarowy(krok);
+    }
+
+    public static void cezarowy(String s, int k) {
+        String nowy = "";
+        char[] ciag = s.toCharArray();
+        for (char c : ciag) {
+            nowy += (char) ((int) c + k);
+        }
+        try {
+            File file = new File("szyfrcezara.txt");
+            FileWriter fileWriter = new FileWriter(file, true);
+            fileWriter.append(nowy+"\n");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println(e.getCause());
+        }
+    }
+    public static void Decezarowy(int k) {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(new File("szyfrcezara.txt")));
+            String linia = null;
+            while((linia=bufferedReader.readLine())!=null){
+                String nowy = "";
+                char[] ciag = linia.toCharArray();
+                for (char c : ciag) {
+                    nowy += (char) ((int) c + k*(-1));
+                }
+                System.out.println(nowy);
+            }
+            bufferedReader.close();
+        } catch (IOException e) {
+            System.out.println(e.getCause());
+        }
+    }
+
+}
