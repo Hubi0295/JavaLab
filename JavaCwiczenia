@@ -1,0 +1,74 @@
+public class Main {
+    public static void main(String[] args) {
+        int[] num = {1,2,3,1,2,1,5,2,3,1,2};
+        HashSet<Integer> zbiorWystepujacychLiczb= new HashSet<>();
+        for(int i:num){
+            zbiorWystepujacychLiczb.add(i);
+        }
+
+        HashMap<Integer,Long> mapa = new HashMap<>();
+        for (Integer i:zbiorWystepujacychLiczb) {
+            IntStream streamm = Arrays.stream(num);
+            mapa.put(i,streamm.filter(el->el==i).count());
+        }
+        System.out.println(mapa);
+        liczbaPowtorzen(num);
+        String ciag = "zA man a plan a Canal Panamaz";
+        ciag=ciag.replaceAll("\\s+","").toLowerCase();
+        System.out.println(CzyPalindrom(ciag));
+
+        System.out.println(CiagFibbonaciego(19));
+        System.out.println(CiagF(19));
+    }
+    public static void liczbaPowtorzen(int[] tab){
+        HashMap<Integer, Integer> powtorzenia = new HashMap<>();
+        for (int j : tab) {
+            if (powtorzenia.containsKey(j)) {
+                powtorzenia.put(j, powtorzenia.get(j) + 1);
+            } else {
+                powtorzenia.put(j, 1);
+            }
+        }
+        System.out.println(powtorzenia);
+    }
+    public static boolean CzyPalindrom(String slowo){
+        char[] ciag = slowo.toCharArray();
+        for(int i=0;i<ciag.length/2;i++){
+            if(ciag[i]!=ciag[ciag.length-i-1]){
+                return false;
+            }
+        }
+        return true;
+    }
+    public static int CiagFibbonaciego(int n){
+        if(n==0){
+            return 0;
+        }
+        else if(n==1){
+            return 1;
+        }
+        else{
+            return CiagFibbonaciego(n-1)+CiagFibbonaciego(n-2);
+        }
+    }
+    public static int CiagF(int n){
+        int liczbaPoprzedniaPoprzednia=0;
+        int liczbaPoprzednia=0;
+        int liczbaSzukana=0;
+        for(int i=0;i<n;i++){
+            if(i==0){
+                continue;
+            }
+            if(i==1){
+                liczbaPoprzednia=1;
+                liczbaSzukana+=liczbaPoprzednia;
+            }
+            else{
+                liczbaPoprzedniaPoprzednia=liczbaPoprzednia;
+                liczbaPoprzednia=liczbaSzukana;
+                liczbaSzukana=liczbaPoprzednia+liczbaPoprzedniaPoprzednia;
+            }
+        }
+        return liczbaSzukana;
+    }
+}
